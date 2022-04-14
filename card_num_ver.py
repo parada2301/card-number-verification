@@ -16,11 +16,11 @@ class Card:
         card_num = str(gp.getpass('Input credit card number to validate:    '))
 
         #checks if input is of expected length and that it is a number 
-        if (len(card_num) > 16 and len(card_num) < 13) or card_num.isdigit() != True:
+        if (len(card_num) > 16 or len(card_num) < 13) or card_num.isdigit() != True:
             
             #if card number is between 13 and 16 digits long, or input is not a digit
             #this message is shown and the loop is restarted to ask for number again.
-            print('\nCard number needs to by 15 or 16 digits! Try again.\n')               
+            print('\nCard number needs to between 13 and 16 digits! Try again.\n')               
         else:
 
             #if input is valid the While loop is stopped and variable card_num stays
@@ -37,7 +37,6 @@ class Card:
         remain_digits = []
         string_minus_last = self.card_num[:-1]
         new_num = []
-        new_num2 = []
         for i in string_minus_last[::-2]:
             sec_digits.append(i)
         for d in self.card_num[::-2]:
@@ -53,11 +52,10 @@ class Card:
             else:
                 new_num.append(current_num)
         for o in remain_digits:
-            new_num2.append(int(o))
+            new_num.append(int(o))
         num_sum = sum(new_num)
-        num_sum2 = sum(new_num2)
-        print(num_sum+num_sum2)
-        if (num_sum+num_sum2)%10 == 0:
+        print(num_sum)
+        if num_sum%10 == 0:
             return print('\nCard Number is valid!\n')
         else:
             return print('\nCard Number is not valid!\n')
