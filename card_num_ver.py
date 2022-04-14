@@ -8,8 +8,7 @@ class Card:
     #keeps the check_len loop running until is changed to False
     check_len = True  
     
-    #checks the string lenght of the card is correct either 16 or
-    #15 digits for AMEX cards     
+    #checks the string lenght of the card is between 13 and 16 digits    
     while check_len:
         
         #requests card number using the getpass library
