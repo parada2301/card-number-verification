@@ -36,15 +36,34 @@ class Card:
         sec_digits = []
         remain_digits = []
         string_minus_last = self.card_num[:-1]
+        new_num = []
+        new_num2 = []
         for i in string_minus_last[::-2]:
             sec_digits.append(i)
-        for d in self.card_num:
-            if d not in sec_digits:
-                remain_digits.append(d)
-        print(sec_digits)
-        print(remain_digits)
+        for d in self.card_num[::-2]:
+            remain_digits.append(d)
+            print(remain_digits)
+        for s in sec_digits:
+            current_num = int(s)*2
+            if len(f'{current_num}') == 2:
+                first_digit= f'{current_num}'[0]
+                second_digit=f'{current_num}'[1]
+                current_num = int(first_digit) + int(second_digit)
+                new_num.append(current_num)
+            else:
+                new_num.append(current_num)
+        for o in remain_digits:
+            new_num2.append(int(o))
+        num_sum = sum(new_num)
+        num_sum2 = sum(new_num2)
+        print(num_sum+num_sum2)
+        if (num_sum+num_sum2)%10 == 0:
+            return print('\nCard Number is valid!\n')
+        else:
+            return print('\nCard Number is not valid!\n')
 
-    
-first_card = Card()
-print(first_card.card_num)
-first_card.validate()
+
+if __name__ == '__main__':    
+    first_card = Card()
+    print(first_card.card_num)
+    first_card.validate()
