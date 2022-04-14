@@ -1,8 +1,10 @@
 import getpass as gp
+import math
 
-card_num = ''
 class Card:
     
+    card_num = ''
+
     #keeps the check_len loop running until is changed to False
     check_len = True  
     
@@ -14,7 +16,7 @@ class Card:
         card_num = str(gp.getpass('Input credit card number to validate:    '))
 
         #checks if input is of expected length and that it is a number 
-        if (len(card_num) != 16 and len(card_num) != 15) or card_num.isdigit != True:
+        if (len(card_num) != 16 and len(card_num) != 15):
             
             #if card number is not 15 or 16 digits long, or input is not a digit
             #this message is shown and the loop is restarted to ask for number again.
@@ -25,14 +27,24 @@ class Card:
             #as user input to be added as property of the class.
             check_len = False
     
+    def __init__(self,card_num=card_num):
+        self.card_num = card_num
+    
     #checks if credit card number follows luhn algorithm, which is used to verify a card
     #number is a valid number
-    def validate(card_num):
-        pass
-    def __init__(self):
-        self.card_num = card_num
-        
-                
-        
+    def validate(self):
+        sec_digits = []
+        remain_digits = []
+        string_minus_last = self.card_num[:-1]
+        for i in string_minus_last[::-2]:
+            sec_digits.append(i)
+        for d in self.card_num:
+            if d not in sec_digits:
+                remain_digits.append(d)
+        print(sec_digits)
+        print(remain_digits)
 
+    
 first_card = Card()
+print(first_card.card_num)
+first_card.validate()
