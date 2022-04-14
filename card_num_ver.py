@@ -16,9 +16,9 @@ class Card:
         card_num = str(gp.getpass('Input credit card number to validate:    '))
 
         #checks if input is of expected length and that it is a number 
-        if (len(card_num) != 16 and len(card_num) != 15):
+        if (len(card_num) > 16 and len(card_num) < 13) or card_num.isdigit() != True:
             
-            #if card number is not 15 or 16 digits long, or input is not a digit
+            #if card number is between 13 and 16 digits long, or input is not a digit
             #this message is shown and the loop is restarted to ask for number again.
             print('\nCard number needs to by 15 or 16 digits! Try again.\n')               
         else:
