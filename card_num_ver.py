@@ -98,7 +98,6 @@ if __name__ == '__main__':
                 del first_card
                 break
             elif i == 'N' or i == 'n':
-                raise SystemExit
-                
+                raise SystemExit               
             else:
                 print('Invalid input.')
