@@ -1,5 +1,11 @@
 import getpass as gp
-import math
+
+network_dict = {
+    '4':'Visa',
+    '5': 'MasterCard',
+    "37":'American Express',
+    '6':'Discover card'
+    }
 
 class Card:
     
@@ -12,6 +18,10 @@ class Card:
     while check_len:
         
         #requests card number using the getpass library
+        #NOTE: some IDEs or terminals may not show this properly, getpass can be changed 
+        #to normal input(), however, this would not hide the card number at input
+        
+        #input is a string to take advantage of indexing later on        
         card_num = str(gp.getpass('Input credit card number to validate:    '))
 
         #checks if input is of expected length and that it is a number 
@@ -26,8 +36,7 @@ class Card:
             #as user input to be added as property of the class.
             check_len = False
     
-    def __init__(self,card_num=card_num):
-        self.card_num = card_num
+
     
     #checks if credit card number follows luhn algorithm, which is used to verify a card
     #number is a valid number
@@ -40,7 +49,6 @@ class Card:
             sec_digits.append(i)
         for d in self.card_num[::-2]:
             remain_digits.append(d)
-            print(remain_digits)
         for s in sec_digits:
             current_num = int(s)*2
             if len(f'{current_num}') == 2:
@@ -53,14 +61,26 @@ class Card:
         for o in remain_digits:
             new_num.append(int(o))
         num_sum = sum(new_num)
-        print(num_sum)
         if num_sum%10 == 0:
-            return print('\nCard Number is valid!\n')
+            return True
         else:
-            return print('\nCard Number is not valid!\n')
+            return False
 
+    def network(self):
+        if self.validate() == False:
+            print('\nCard number is not valid\n')
+        elif '37' in self.card_num[:2]:
+                return print(network_dict['37'])
+        else:
+            return print(network_dict[self.card_num[0]])
+
+
+    def __init__(self,card_num = card_num):
+        self.card_num = card_num
+        self.valid = self.validate()
+        self.network = self.network()
 
 if __name__ == '__main__':    
     first_card = Card()
-    print(first_card.card_num)
-    first_card.validate()
+    print('Card Number ************' + first_card.card_num[-4:])
+    print('Card Valid:  ' + f'{first_card.validate()}')
