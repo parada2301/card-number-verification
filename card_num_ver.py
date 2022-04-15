@@ -9,32 +9,34 @@ network_dict = {
 
 class Card:
     
-    card_num = ''
+    def card_num(self):
+        card_num = ''
 
-    #keeps the check_len loop running until is changed to False
-    check_len = True  
-    
-    #checks the string lenght of the card is between 13 and 16 digits    
-    while check_len:
+        #keeps the check_len loop running until is changed to False
+        check_len = True  
         
-        #requests card number using the getpass library
-        #NOTE: some IDEs or terminals may not show this properly, getpass can be changed 
-        #to normal input(), however, this would not hide the card number at input
-        
-        #input is a string to take advantage of indexing later on        
-        card_num = str(gp.getpass('Input credit card number to validate:    '))
-
-        #checks if input is of expected length and that it is a number 
-        if (len(card_num) > 16 or len(card_num) < 13) or card_num.isdigit() != True:
+        #checks the string lenght of the card is between 13 and 16 digits    
+        while check_len:
             
-            #if card number is between 13 and 16 digits long, or input is not a digit
-            #this message is shown and the loop is restarted to ask for number again.
-            print('\nCard number needs to between 13 and 16 digits! Try again.\n')               
-        else:
+            #requests card number using the getpass library
+            #NOTE: some IDEs or terminals may not show this properly, getpass can be changed 
+            #to normal input(), however, this would not hide the card number at input
+            
+            #input is a string to take advantage of indexing later on        
+            card_num = str(gp.getpass('Input credit card number to validate:    '))
 
-            #if input is valid the While loop is stopped and variable card_num stays
-            #as user input to be added as property of the class.
-            check_len = False
+            #checks if input is of expected length and that it is a number 
+            if (len(card_num) > 16 or len(card_num) < 13) or card_num.isdigit() != True:
+                
+                #if card number is between 13 and 16 digits long, or input is not a digit
+                #this message is shown and the loop is restarted to ask for number again.
+                print('\nCard number needs to between 13 and 16 digits! Try again.\n')               
+            else:
+
+                #if input is valid the While loop is stopped and variable card_num stays
+                #as user input to be added as property of the class.
+                check_len = False
+                return card_num
     
 
     
@@ -70,17 +72,33 @@ class Card:
         if self.validate() == False:
             print('\nCard number is not valid\n')
         elif '37' in self.card_num[:2]:
-                return print(network_dict['37'])
+                return network_dict['37']
         else:
-            return print(network_dict[self.card_num[0]])
+            return network_dict[self.card_num[0]]
 
 
-    def __init__(self,card_num = card_num):
-        self.card_num = card_num
+    def __init__(self):
+        self.card_num = self.card_num()
         self.valid = self.validate()
         self.network = self.network()
 
+
+
+
 if __name__ == '__main__':    
-    first_card = Card()
-    print('Card Number ************' + first_card.card_num[-4:])
-    print('Card Valid:  ' + f'{first_card.validate()}')
+    on_off = True
+    while on_off:
+        first_card = Card()
+        print('Card Number ************' + first_card.card_num[-4:])
+        print('Card Valid:  ' + f'{first_card.validate()}')
+        print(f'{first_card.network}')
+        while True:
+            i = input('Would you like to check another card number? Y/N    ')
+            if i == 'Y' or i == 'y':
+                del first_card
+                break
+            elif i == 'N' or i == 'n':
+                raise SystemExit
+                
+            else:
+                print('Invalid input.')
