@@ -9,7 +9,7 @@ network_dict = {
 
 class Card:
     
-    def card_num(self):
+    def card_numb(self):
         card_num = ''
 
         #keeps the check_len loop running until is changed to False
@@ -47,8 +47,8 @@ class Card:
         remain_digits = []
         string_minus_last = self.card_num[:-1]
         new_num = []
-        for i in string_minus_last[::-2]:
-            sec_digits.append(i)
+        for string in string_minus_last[::-2]:
+            sec_digits.append(string)
         for d in self.card_num[::-2]:
             remain_digits.append(d)
         for s in sec_digits:
@@ -68,19 +68,18 @@ class Card:
         else:
             return False
 
-    def network(self):
-        if self.validate() == False:
+    def networks(self):
+        if not self.validate():
             print('\nCard number is not valid\n')
         elif '37' in self.card_num[:2]:
-                return network_dict['37']
+            return network_dict['37']
         else:
             return network_dict[self.card_num[0]]
 
-
     def __init__(self):
-        self.card_num = self.card_num()
+        self.card_num = self.card_numb()
         self.valid = self.validate()
-        self.network = self.network()
+        self.network = self.networks()
 
 
 
@@ -98,6 +97,6 @@ if __name__ == '__main__':
                 del first_card
                 break
             elif i == 'N' or i == 'n':
-                raise SystemExit               
+                raise SystemExit           
             else:
                 print('Invalid input.')
