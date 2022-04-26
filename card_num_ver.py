@@ -1,4 +1,5 @@
 import getpass as gp
+import psycopg2 as pg2
 
 network_dict = {
     '4':'Visa',
