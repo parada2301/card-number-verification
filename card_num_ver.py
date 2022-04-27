@@ -1,12 +1,8 @@
 import getpass as gp
 import psycopg2 as pg2
 
-network_dict = {
-    '4':'Visa',
-    '5': 'MasterCard',
-    "37":'American Express',
-    '6':'Discover card'
-    }
+conn = pg2.connect(database='BIN_database',user=input('Database username    '),password=gp.getpass('Database Password  '))
+cur = conn.cursor()
 
 class Card:
     
@@ -39,8 +35,6 @@ class Card:
                 check_len = False
                 return card_num
     
-
-    
     #checks if credit card number follows luhn algorithm, which is used to verify a card
     #number is a valid number
     def validate(self):
@@ -72,17 +66,48 @@ class Card:
     def networks(self):
         if not self.validate():
             print('\nCard number is not valid\n')
-        elif '37' in self.card_num[:2]:
-            return network_dict['37']
         else:
-            return network_dict[self.card_num[0]]
+            searching = True
+            tries = 8
+            while searching:
+                cur.execute(
+                    f'''
+                    SELECT brand FROM bin_data
+                    WHERE bin = {self.card_num[:tries]};
+                    '''
+                )
+                result = cur.fetchone()
+                if result == None:
+                    tries -= 1
+                else:
+
+                    return result[0]
+
+    def check_issuer(self):
+        if not self.validate():
+            print('\nCard number is not valid\n')
+        else:
+            searching = True
+            tries = 8
+            while searching:
+                cur.execute(
+                    f'''
+                    SELECT issuer FROM bin_data
+                    WHERE bin = {self.card_num[:tries]};
+                    '''
+                )
+                result = cur.fetchone()
+                if result == None:
+                    tries -= 1
+                else:
+
+                    return result[0]
 
     def __init__(self):
         self.card_num = self.card_numb()
         self.valid = self.validate()
         self.network = self.networks()
-
-
+        self.issuer = self.check_issuer()
 
 
 if __name__ == '__main__':    
@@ -92,6 +117,7 @@ if __name__ == '__main__':
         print('Card Number ************' + first_card.card_num[-4:])
         print('Card Valid:  ' + f'{first_card.validate()}')
         print(f'{first_card.network}')
+        print(f'Card issued by {first_card.issuer}')
         while True:
             i = input('Would you like to check another card number? Y/N    ')
             if i == 'Y' or i == 'y':
